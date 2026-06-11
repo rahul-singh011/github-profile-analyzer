@@ -7,7 +7,19 @@ const app = express()
 
 app.use(express.json())
 
+app.get('/', (req,res)=>{
+    res.status(200).json({
+        success: true,
+        message: 'Github Profile Analyzer API is running.'
+    })
+})
+
 app.use('/api/profiles', profileRoutes )
+
+app.use((req,res)=>{
+    res.status(404).json({ success: false, message: 'Route not found.', data: null});
+});
+
 
 app.use((err, req,res, next)=>{
     if(err instanceof ApiError){

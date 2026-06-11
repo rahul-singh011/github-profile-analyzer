@@ -7,10 +7,15 @@ const computeInsights = require("../utils/computeInsights");
 const ApiResponse = require("../utils/ApiResponse");
 const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
+const isValidGithubUsername = require("../utils/validateUsername");
 
 const analyzeProfile = asyncHandler(async (req, res) => {
   const { username } = req.params;
 
+  if(!isValidGithubUsername(username)){
+    throw new ApiError(400, 'Invalid Github username format')
+  }
+  
   const userData = await fetchGithubUser(username);
   const userRepo = await fetchGithubRepos(username);
 
