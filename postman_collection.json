@@ -1,0 +1,47 @@
+{
+    "info": {
+      "name": "GitHub Profile Analyzer API",
+      "description": "API for fetching, analyzing, and storing GitHub profile insights.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "https://github-profile-analyzer-lw3b.onrender.com",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "Health Check",
+        "request": {
+          "method": "GET",
+          "url": "{{base_url}}/"
+        }
+      },
+      {
+        "name": "Analyze & Save Profile",
+        "request": {
+          "method": "POST",
+          "url": "{{base_url}}/api/profiles/octocat",
+          "description": "Fetches GitHub data for the given username, computes insights, and upserts into the database."
+        }
+      },
+      {
+        "name": "List All Profiles",
+        "request": {
+          "method": "GET",
+          "url": "{{base_url}}/api/profiles",
+          "description": "Returns all stored profiles, ordered by most recently analyzed."
+        }
+      },
+      {
+        "name": "Get Profile By Username",
+        "request": {
+          "method": "GET",
+          "url": "{{base_url}}/api/profiles/octocat",
+          "description": "Returns a single stored profile from the database (404 if not analyzed yet)."
+        }
+      }
+    ]
+  }
