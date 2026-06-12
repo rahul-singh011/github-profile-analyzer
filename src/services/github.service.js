@@ -3,12 +3,19 @@ const ApiError = require("../utils/ApiError");
 
 const GITHUB_API_BASE = "https://api.github.com";
 
+const githubHeaders = {
+  Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+  "User-Agent": "github-profile-analyzer-app"
+};
+
 const fetchGithubUser = async (username) => {
   try {
-    const response = await axios.get(`${GITHUB_API_BASE}/users/${username}`);
+    const response = await axios.get(`${GITHUB_API_BASE}/users/${username}`, {
+      headers: githubHeaders
+    });
+
     return response.data;
   } catch (error) {
-    console.error('USER FETCH ERROR:', error.response?.status, error.response?.data);
     if (error.response && error.response.status === 404) {
       throw new ApiError(404, `Github user '${username}' not found `);
     }
@@ -20,6 +27,7 @@ const fetchGithubRepos = async (username) => {
   try {
     const response = await axios.get(
       `${GITHUB_API_BASE}/users/${username}/repos?per_page=100`,
+      { headers: githubHeaders }
     );
     return response.data;
   } catch (error) {
