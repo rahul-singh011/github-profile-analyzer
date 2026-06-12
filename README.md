@@ -26,6 +26,7 @@ mindmap
 ## Table of Contents
 
 - [Overview](#overview)
+- [Live Deployment](#live-deployment)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
