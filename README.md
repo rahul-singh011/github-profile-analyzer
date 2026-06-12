@@ -54,6 +54,18 @@ Previously analyzed profiles can be retrieved from the database without re-calli
 
 ---
 
+## Live Deployment
+
+- **API Base URL:** https://github-profile-analyzer-lw3b.onrender.com
+- **Database:** MySQL hosted on Aiven (free tier)
+- **Hosting:** Render (free tier — first request after inactivity may take 30-60s due to cold start)
+
+Example:
+```bash
+curl -X POST https://github-profile-analyzer-lw3b.onrender.com/api/profiles/octocat
+```
+---
+
 ## Features
 
 | Feature | Description |
@@ -364,6 +376,9 @@ DB_HOST=localhost
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_NAME=github_analyzer
+DB_PORT=3306
+DB_SSL=false
+GITHUB_TOKEN=your_github_personal_access_token
 ```
 
 | Variable | Required | Description |
@@ -373,9 +388,11 @@ DB_NAME=github_analyzer
 | `DB_USER` | Yes | MySQL username |
 | `DB_PASSWORD` | Yes | MySQL password |
 | `DB_NAME` | Yes | MySQL database name |
+| `DB_PORT` | No | MySQL port (default: `3306`; cloud providers like Aiven use custom ports) |
+| `DB_SSL` | No | Set to `true` for cloud-hosted MySQL requiring SSL (e.g., Aiven) |
+| `GITHUB_TOKEN` | Yes | GitHub personal access token (no scopes needed for public data) — required to avoid the 60 req/hour unauthenticated rate limit |
 
-> **Note:** The GitHub API is called without authentication. Unauthenticated requests are limited to [60 requests/hour per IP](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api). For higher limits, add a `GITHUB_TOKEN` and pass it in Axios headers (future enhancement).
-
+> **Note:** All requests to the GitHub API are authenticated using `GITHUB_TOKEN`, raising the rate limit from 60 to 5,000 requests/hour.
 ---
 
 ## Usage Examples
