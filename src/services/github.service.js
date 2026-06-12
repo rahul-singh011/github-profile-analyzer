@@ -8,6 +8,7 @@ const fetchGithubUser = async (username) => {
     const response = await axios.get(`${GITHUB_API_BASE}/users/${username}`);
     return response.data;
   } catch (error) {
+    console.error('USER FETCH ERROR:', error.response?.status, error.response?.data);
     if (error.response && error.response.status === 404) {
       throw new ApiError(404, `Github user '${username}' not found `);
     }
